@@ -156,12 +156,12 @@ def image2elf(filename, output_file, verbose=False):
     print_verbose(verbose, "\nAdding program headers")
     for (name, flags) in segments.items():
 
-        if (name == '.iram0.vectors'):
+        if (name == '.iram0.vectors') and '.iram0.text' in section_data:
             # combine these
             size = len(section_data['.iram0.vectors']['data']) + len(section_data['.iram0.text']['data'])
         else:
             size = len(section_data[name]['data'])
-        
+
         p_flags = calcPhFlg(flags)
         addr = section_data[name]['addr']
         align = 0x1000
